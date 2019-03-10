@@ -10,24 +10,27 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- My Styles -->
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
-
+    <!-- Navbar at the top with the search box -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <form class="form-inline my-2 my-lg-0">
             <input v-model="search" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         </form>
     </nav>
-
+    
+    <!-- Main body starts here -->
     <main id="app" role="main" class="container">
         <br><br><br>
         <div class="container">
             <div class="row">
                 <div class=" col-3 text-left" id="filter">
                     <form>
+                       <!-- Select dropdown filters -->
                         <div class="">
                             <select v-on:change="MakeChange" data-filter="make" class="filter-make filter form-control">
                                 <option value="">Select Make</option>
@@ -52,6 +55,7 @@
                                 <option value="">Show All</option>
                             </select>
                         </div>
+                        <!-- Checkbox filters -->
                         <div>
                             <div class="form-check">
                                 <input v-on:change="CheckHasSunroof" type="checkbox" class="form-check-input" id="SunRoof">
@@ -78,6 +82,7 @@
                                 <label class="form-check-label" for="hasHeatedSeats">Heated Seats</label>
                             </div>
                         </div>
+                        <!-- Clear all filters -->
                         <div>
                             <label><u><b><a href="#" v-on:click="ClearFilters">Clear Filter</a></b></u></label>
                         </div>
@@ -86,8 +91,9 @@
                     </form>
                 </div>
                 <div class="col-9">
+                   <!-- Vue.js generated items from object data -->
                     <div class="row">
-                        <div v-for="car in filterData" class="col-sm-4 product" data-make="Gibson" data-model="Les Paul" data-type="Electric" data-price="3000">
+                        <div v-for="car in filterData" class="col-sm-4 product">
                             <div class="product-inner text-center"><img v-bind:src="car.picture"><br>Make: {{car.make}}<br>Year: {{car.year}}<br>color: {{car.color}}<br>Price: ${{car.price}}</div>
                         </div>
                     </div>
@@ -95,7 +101,7 @@
             </div>
         </div>
 
-    </main><!-- /.container -->
+    </main>
 
 
     <!-- Bootstrap core JavaScript
