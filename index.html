@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Car Dealership</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <form class="form-inline my-2 my-lg-0">
+            <input v-model="search" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        </form>
+    </nav>
+
+    <main id="app" role="main" class="container">
+        <br><br><br>
+        <div class="container">
+            <div class="row">
+                <div class=" col-3 text-left" id="filter">
+                    <form>
+                        <div class="">
+                            <select v-on:change="MakeChange" data-filter="make" class="filter-make filter form-control">
+                                <option value="">Select Make</option>
+                                <option v-for="make in makeArray" :value="make">{{make}}</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <select v-on:change="YearChange" class="filter-model filter form-control">
+                                <option value="">Select Year</option>
+                                <option v-for="year in yearArray" :value="year">{{year}}</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <select v-on:change="ColorChange" class="filter-type filter form-control">
+                                <option value="">Select Color</option>
+                                <option v-for="color in colorArray" :value="color">{{color}}</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <select data-filter="price" class="filter-price filter form-control">
+                                <option value="">Select Price Range</option>
+                                <option value="">Show All</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="form-check">
+                                <input v-on:change="CheckHasSunroof" type="checkbox" class="form-check-input" id="SunRoof">
+                                <label class="form-check-label" for="SunRoof">Sun Roof</label>
+                            </div>
+                            <div class="form-check">
+                                <input v-on:change="CheckisFourWheelDrive" type="checkbox" class="form-check-input" id="isFourWheelDrive">
+                                <label class="form-check-label" for="isFourWheelDrive">Four Wheel Drive</label>
+                            </div>
+                            <div class="form-check">
+                                <input v-on:change="CheckhasLowMiles" type="checkbox" class="form-check-input" id="hasLowMiles">
+                                <label class="form-check-label" for="hasLowMiles">Low Mileage</label>
+                            </div>
+                            <div class="form-check">
+                                <input v-on:change="CheckhasPowerWindows" type="checkbox" class="form-check-input" id="hasPowerWindows">
+                                <label class="form-check-label" for="hasPowerWindows">Power Windows</label>
+                            </div>
+                            <div class="form-check">
+                                <input v-on:change="CheckhasNavigation" type="checkbox" class="form-check-input" id="hasNavigation">
+                                <label class="form-check-label" for="hasNavigation">Navigation controls</label>
+                            </div>
+                            <div class="form-check">
+                                <input v-on:change="CheckhasHeatedSeats" type="checkbox" class="form-check-input" id="hasHeatedSeats">
+                                <label class="form-check-label" for="hasHeatedSeats">Heated Seats</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label><u><b><a href="#" v-on:click="ClearFilters">Clear Filter</a></b></u></label>
+                        </div>
+                        <br>
+
+                    </form>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div v-for="car in filterData" class="col-sm-4 product" data-make="Gibson" data-model="Les Paul" data-type="Electric" data-price="3000">
+                            <div class="product-inner text-center"><img v-bind:src="car.picture"><br>Make: {{car.make}}<br>Year: {{car.year}}<br>color: {{car.color}}<br>Price: ${{car.price}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</body>
+
+</html>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            search: '',
+            carData: [{
+                    "_id": "59d2698c2eaefb1268b69ee5",
+                    "make": "Chevy",
+                    "year": 2016,
+                    "color": "Gray",
+                    "price": 16106,
+                    "hasSunroof": false,
+                    "isFourWheelDrive": true,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": false,
+                    "hasNavigation": true,
+                    "hasHeatedSeats": false,
+                    "picture": 'images/2016-Chevy-Gray.png'
+                },
+                {
+                    "_id": "59d2698c05889e0b23959106",
+                    "make": "Toyota",
+                    "year": 2012,
+                    "color": "Silver",
+                    "price": 18696,
+                    "hasSunroof": true,
+                    "isFourWheelDrive": true,
+                    "hasLowMiles": false,
+                    "hasPowerWindows": true,
+                    "hasNavigation": false,
+                    "hasHeatedSeats": true,
+                    "picture": 'images/2015-Toyota-White (2).png'
+                },
+                {
+                    "_id": "59d2698c6f1dc2cbec89c413",
+                    "make": "Mercedes",
+                    "year": 2016,
+                    "color": "Black",
+                    "price": 18390,
+                    "hasSunroof": true,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": false,
+                    "hasPowerWindows": true,
+                    "hasNavigation": true,
+                    "hasHeatedSeats": false,
+                    "picture": 'images/2016-Mercedes-Black.png'
+                },
+                {
+                    "_id": "59d2698c340f2728382c0a73",
+                    "make": "Toyota",
+                    "year": 2015,
+                    "color": "White",
+                    "price": 15895,
+                    "hasSunroof": true,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": true,
+                    "hasNavigation": false,
+                    "hasHeatedSeats": true,
+                    "picture": 'images/2015-Toyota-White.png'
+                },
+                {
+                    "_id": "59d2698cba9b82c2347cd13a",
+                    "make": "Ford",
+                    "year": 2014,
+                    "color": "Gray",
+                    "price": 19710,
+                    "hasSunroof": false,
+                    "isFourWheelDrive": true,
+                    "hasLowMiles": false,
+                    "hasPowerWindows": false,
+                    "hasNavigation": true,
+                    "hasHeatedSeats": true,
+                    "picture": 'images/2014-Ford-Gray.png'
+                },
+                {
+                    "_id": "59d2698ce2e7eeeb4f109001",
+                    "make": "Toyota",
+                    "year": 2014,
+                    "color": "Red",
+                    "price": 19248,
+                    "hasSunroof": true,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": true,
+                    "hasNavigation": true,
+                    "hasHeatedSeats": true,
+                    "picture": 'images/2014-Toyota-Red.png'
+                },
+                {
+                    "_id": "59d2698cd6a3b8f0dd994c9d",
+                    "make": "Toyota",
+                    "year": 2015,
+                    "color": "Black",
+                    "price": 13170,
+                    "hasSunroof": true,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": true,
+                    "hasNavigation": false,
+                    "hasHeatedSeats": false,
+                    "picture": 'images/2015-Toyota-Black.jpg'
+                },
+                {
+                    "_id": "59d2698c86ab54cee8acdc7b",
+                    "make": "Mercedes",
+                    "year": 2013,
+                    "color": "Gray",
+                    "price": 15669,
+                    "hasSunroof": false,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": false,
+                    "hasNavigation": false,
+                    "hasHeatedSeats": false,
+                    "picture": 'images/2013-Mercedes-Gray.png'
+                },
+                {
+                    "_id": "59d2698cda9e8d39476c678a",
+                    "make": "Toyota",
+                    "year": 2015,
+                    "color": "White",
+                    "price": 16629,
+                    "hasSunroof": false,
+                    "isFourWheelDrive": false,
+                    "hasLowMiles": true,
+                    "hasPowerWindows": false,
+                    "hasNavigation": false,
+                    "hasHeatedSeats": true,
+                    "picture": 'images/2012-Toyota-Silver.png'
+                }
+            ],
+            filterData: [],
+            makeArray: [],
+            yearArray: [],
+            colorArray: [],
+            minPrice: null,
+            maxPrice: null,
+            selectedYear: "",
+            selectedMake: "",
+            selectedColor: "",
+        },
+        methods: {
+            MakeChange: function(e) {
+                var makeValue = e.target.value;
+                this.$data.selectedMake = makeValue;
+                if (makeValue != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].make == makeValue;
+                    });
+                }
+            },
+            YearChange: function(e) {
+                var yearValue = e.target.value;
+                this.$data.selectedYear = yearValue;
+                if (yearValue != "" && this.$data.selectedMake != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].year == yearValue && self[index].make == this.$data.selectedMake;
+                    });
+                } else if (yearValue != "" && this.$data.selectedMake == "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].year == yearValue;
+                    });
+                }
+            },
+            ColorChange: function(e) {
+                var colorValue = e.target.value;
+                this.$data.selectedColor = colorValue;
+                if (colorValue != "" && this.$data.selectedMake != "" && this.$data.selectedYear != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].color == colorValue && self[index].make == this.$data.selectedMake && self[index].year == this.$data.selectedYear;
+                    });
+                } else if (colorValue != "" && this.$data.selectedMake != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].color == colorValue && self[index].make == this.$data.selectedMake;
+                    });
+                } else if (colorValue != "" && this.$data.selectedYear != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].color == colorValue && self[index].year == this.$data.selectedYear;
+                    });
+                } else if (colorValue != "") {
+                    this.$data.filterData = this.$data.carData.filter((value, index, self) => {
+                        return self[index].color == colorValue;
+                    });
+                }
+            },
+            CheckHasSunroof: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].hasSunroof == true;
+                    });
+                }
+            },
+            CheckisFourWheelDrive: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].isFourWheelDrive == true;
+                    });
+                }
+            },
+            CheckhasLowMiles: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].hasLowMiles == true;
+                    });
+                }
+            },
+            CheckhasPowerWindows: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].hasPowerWindows == true;
+                    });
+                }
+            },
+            CheckhasNavigation: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].hasNavigation == true;
+                    });
+                }
+            },
+            CheckhasHeatedSeats: function(e) {
+                if (e.target.checked) {
+                    this.$data.filterData = this.$data.filterData.filter((value, index, self) => {
+                        return self[index].hasHeatedSeats == true;
+                    });
+                }
+            },
+            ClearFilters: function(e) {
+                var inputs = document.getElementsByTagName("input");
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type == "checkbox") {
+                        inputs[i].checked = false;
+                    }
+                }
+                var selects = document.getElementsByTagName("select");
+                for (var i = 0; i < selects.length; i++) {
+                    selects[i].selectedIndex = 0;
+                }
+                this.$data.filterData = this.$data.carData;
+            }
+        },
+        mounted: function() {
+            this.$nextTick(function() {
+
+            })
+        },
+        created: function() {
+            this.$data.filterData = this.$data.carData;
+            this.$data.makeArray = this.$data.carData.map((car) => {
+                return car.make
+            }).filter((value, index, self) => {
+                return self.indexOf(value) === index;
+            });
+            this.$data.yearArray = this.$data.carData.map((car) => {
+                return car.year
+            }).filter((value, index, self) => {
+                return self.indexOf(value) === index;
+            });
+            this.$data.colorArray = this.$data.carData.map((car) => {
+                return car.color
+            }).filter((value, index, self) => {
+                return self.indexOf(value) === index;
+            });
+        },
+        computed: {
+            filterData() {
+                return this.$data.filterData.filter((car) => {
+                    return car.make.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                })
+            }
+        }
+    })
+</script>
